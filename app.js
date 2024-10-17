@@ -2,14 +2,16 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const indexRouter = require("./routes/index");
+require('dotenv').config();
 const cors = require("cors");
-
 const app = express();
-app.use(bodyParser.json());
-app.use("/api", indexRouter);
-app.use(cors());
+const MONGODB_URI_PROD = process.env.MONGODB_URI_PROD;
 
-const mongoURI =`mongodb://localhost:27017/todoapp`;
+app.use(bodyParser.json());
+app.use(cors()); // cors before routes
+app.use("/api", indexRouter);
+
+const mongoURI =MONGODB_URI_PROD;
 
 mongoose
     .connect(mongoURI)
@@ -20,6 +22,6 @@ mongoose
 
 });
 
-app.listen(5001, () => {
+app.listen(process.env.PORT || 5002, () => {
     console.log("server is on");
 });
