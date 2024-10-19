@@ -21,7 +21,7 @@ userController.createUser = async(req,res) => {
         res.status(200).json({status:"success"});
 
     } catch(error) {
-        res.status(400).json({status:"failed", error});
+        res.status(400).json({status:"failed", error:error.message});
     }
 };
 
@@ -40,7 +40,20 @@ userController.loginWithEmail = async(req,res) => {
             throw new Error("Email or password are incorrect.");
         }
     } catch(error) {
-        res.status(400).json({status:"failed", error});
+        res.status(400).json({status:"failed", error: error.message});
+    }
+};
+
+userController.getUser = async(req, res) => {
+    try{
+        const {userId} = req;
+        const user = await User.findById(userId);
+        if(!user) {
+            throw new Error("Cannot find the user");
+        }
+        res.status(200).json({status:"success", user});
+    } catch(error) {
+        res.status(400).json({status:"failed", error: error.message});
     }
 };
 
