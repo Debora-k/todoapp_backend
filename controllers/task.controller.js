@@ -40,6 +40,10 @@ taskController.updateTask = async(req,res) => {
 
 taskController.deleteTask = async(req, res) => {
     try {
+        const task = await Task.findById(req.params.id);
+        if(req.userId.toString() !== task.author.toString()) {
+            return res.status(403).json({status:"failed", error:"You cannot delete others' tasks!"});
+        }
         const deleteTask = await Task.findByIdAndDelete(req.params.id);
         res.status(200).json({status:"success", data:deleteTask});
     } catch(err) {

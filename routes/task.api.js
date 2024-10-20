@@ -9,7 +9,7 @@ router.get('/', taskController.getTask);
 
 router.put('/:id', taskController.updateTask);
 
-router.delete('/:id', taskController.deleteTask);
+router.delete('/:id', authController.authenticate, taskController.deleteTask);
 
 
 module.exports= router;

@@ -16,7 +16,6 @@ authController.authenticate = (req, res, next) => {
             if(error){
                 throw new Error("Invalid token");
             }
-
             req.userId = payload._id; //sending _id to next
         });
         next(); // middleware:the next function is userController.getUser in user.api.js
