@@ -9,6 +9,7 @@ userController.createUser = async(req,res) => {
         const {email,name,password} = req.body;
         const user = await User.findOne({email});
         if(user) {
+            res.status(409).json({status:"failed", error:"You already signed up with the email."});
             throw new Error("You already signed up with the email.");
         };
 
